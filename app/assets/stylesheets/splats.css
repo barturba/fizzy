@@ -76,16 +76,25 @@
     color: var(--splat-color);
   }
 
-  &.splat__boosts {
+  &:is(.splat__boosts) {
     aspect-ratio: 1;
-    inset: 50cqi -1cqi auto auto;
+    display: grid;
+    min-inline-size: 6ch;
+    padding: 0;
+    place-items: center;
+    inset: 55cqi -2cqi auto auto;
 
     a {
+      grid-area: 1/1;
       text-decoration: none;
     }
 
     .windshield .splat:hover & {
       transform: translate(0, 1rem) !important;
+    }
+
+    &.boosting {
+      animation: bubble-up 500ms normal forwards ease-out;
     }
   }
 
@@ -110,7 +119,7 @@
     inset: 2cqi 2cqi auto auto;
   }
 
-  &.splat__meta {
+  &:where(.splat__meta) {
     background-color: var(--color-bg);
     block-size: auto;
     color: var(--splat-color);

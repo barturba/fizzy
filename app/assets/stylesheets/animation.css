@@ -4,6 +4,24 @@
 }
 
 /* Keyframes */
+@keyframes bubble-up {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(0.5em, -2em); }
+  50% { transform: translate(0, -4em); opacity: 0.66; }
+  75% { transform: translate(0.5em, -6em); opacity: 0.33; }
+  100% { transform: translate(0, -8em); opacity: 0; }
+}
+
+@keyframes float-up-left {
+  0% { transform: translate(10px, 20px); }
+  100% { transform: translate(0, 0); }
+}
+
+@keyframes float-down-right {
+  0% { transform: translate(-10px, -20px); }
+  100% { transform: translate(0, 0); }
+}
+
 @keyframes shake {
   0%  { transform: translateX(-2rem); }
   25% { transform: translateX(2rem); }
@@ -16,22 +34,4 @@
   25% { transform: translateX(0.5rem); }
   50% { transform: translateX(-0.2rem); }
   75% { transform: translateX(0.2rem); }
-}
-
-@keyframes splat {
-  0% { transform: scale(150%); opacity: 0; }
-  29% { transform: scale(150%); opacity: 0; }
-  30% { transform: scale(150%); opacity: 0.5; }
-  80% { transform: scale(90%); opacity: 1; }
-  100% { transform: scale(100%); }
-}
-
-@keyframes float-up-left {
-  0% { transform: translate(10px, 20px); }
-  100% { transform: translate(0, 0); }
-}
-
-@keyframes float-down-right {
-  0% { transform: translate(-10px, -20px); }
-  100% { transform: translate(0, 0); }
 }

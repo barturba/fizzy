@@ -22,7 +22,8 @@
   <% end %>
 
 
-  <div class="splat__bubble splat__meta splat__boosts">
+  <%= tag.div class: "splat__bubble splat__meta splat__boosts",
+      data: { controller: "animation toggle-class", animation_play_class: "boosting", toggle_class_toggle_class: "boosting", action: "animationend->toggle-class#toggle" } do %>
     <turbo-frame id="<%= dom_id(splat, "boosts") %>" src="<%= splat_boosts_path(splat) %>" />
-  </div>
+  <% end %>
 </div>
