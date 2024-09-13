@@ -16,24 +16,24 @@ class BubblesController < ApplicationController
     @bubble = Bubble.new
   end
 
-  def edit
-  end
-
-  def update
-    @bubble.update(bubble_params)
-    remove_image if params[:remove_image] == "true"
-
-    redirect_to bubble_path(@bubble)
-  end
-
   def create
-    @bubble = Bubble.create! bubble_params
-
-    redirect_to bubble_path(@bubble)
+    @bubble = Bubble.create!(bubble_params)
+    redirect_to @bubble
   end
 
   def show
   end
+
+  def edit
+  end
+
+  def update
+    @bubble.update!(bubble_params)
+    @bubble.image.purge_later if params.key?(:remove_image)
+
+    redirect_to @bubble
+  end
+
 
   private
     def set_bubble
@@ -41,10 +41,6 @@ class BubblesController < ApplicationController
     end
 
     def bubble_params
-      params.require(:bubble).permit(:title, :body, :color, :due_on, :image, :remove_image, tag_ids: [])
-    end
-
-    def remove_image
-      @bubble.image.purge
+      params.require(:bubble).permit(:title, :body, :color, :due_on, :image, tag_ids: [])
     end
 end
