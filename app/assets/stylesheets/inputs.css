@@ -7,7 +7,7 @@
   color: var(--input-color, var(--color-ink));
   font-size: max(16px, 1em);
   inline-size: 100%;
-  line-height: 1.2;
+  line-height: inherit;
   max-inline-size: 100%;
   padding: var(--input-padding, 0.5em 0.8em);
   resize: none;
@@ -80,7 +80,7 @@
 .input--textara {
   --input-padding: 0;
 
-  line-height: 1.1;
+  line-height: inherit;
   min-block-size: calc(4lh + (2 * var(--input-padding)));
   min-inline-size: 100%;
   padding-block: var(--input-padding);
