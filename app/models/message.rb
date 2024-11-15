@@ -1,5 +1,5 @@
 class Message < ApplicationRecord
-  belongs_to :bubble, touch: true
+  belongs_to :bubble, touch: true, counter_cache: { column: :comments_count, if: :comment? }
 
   delegated_type :messageable, types: Messageable::TYPES, inverse_of: :message, dependent: :destroy
 

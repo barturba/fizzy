@@ -6,6 +6,7 @@ logo:
   due_on: <%= 3.days.from_now %>
   created_at: <%= 1.week.ago %>
   boost_count: 5
+  comments_count: 2
 
 layout:
   bucket: writebook
@@ -13,6 +14,7 @@ layout:
   title: Layout is broken
   color: "#698F9C"
   created_at: <%= 1.week.ago %>
+  comments_count: 1
 
 text:
   bucket: writebook
@@ -20,6 +22,7 @@ text:
   title: The text is too small
   color: "#3B4B59"
   created_at: <%= 1.week.ago %>
+  comments_count: 0
 
 shipping:
   bucket: writebook
@@ -27,3 +30,4 @@ shipping:
   title: We need to ship the app
   color: "#ED8008"
   created_at: <%= 1.week.ago %>
+  comments_count: 0
