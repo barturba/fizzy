@@ -353,24 +353,22 @@
   }
 
   .card__footer {
-    font-size: var(--text-small);
     font-weight: 500;
-    margin-block-end: var(--block-space);
+    padding: 0 var(--inline-space-double) var(--block-space);
+    font-size: 0.8em;
   }
 
   .card__reported,
   .card__assignees {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     gap: 0.25ch;
-  }
-
-  .cards .card__assignees:not(:has(.avatar)) {
-    .txt-uppercase {
-      display: none;
-    }
   }
 
   .card__meta {
     display: grid;
+    font-size: 1em;
     grid-template-columns: auto auto;
 
     > span:nth-child(odd) {

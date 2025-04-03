@@ -1,4 +1,4 @@
-<div class="card__meta txt-tight-lines txt-uppercase">
+<div class="card__meta txt-uppercase">
   <span class="overflow-ellipsis txt-align-end"><%= bubble.creating? ? "Added" : "Updated" %>
     <%= days = (Date.current - bubble.updated_at.to_date).to_i
         case days
