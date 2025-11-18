@@ -1,6 +1,8 @@
 import { Controller } from "@hotwired/stimulus"
 import { nextFrame, debounce } from "helpers/timing_helpers";
 
+// TODO: Default column is 1. But when you expand and collapse and such, we should save that value to localStorage
+
 export default class extends Controller {
   static classes = [ "collapsed", "noTransitions", "titleNotVisible" ]
   static targets = [ "column", "button", "title", "focusElement", "maybe" ]
@@ -11,7 +13,7 @@ export default class extends Controller {
   initialize() {
     this.restoreState = debounce(this.restoreState.bind(this), 10)
     this.currentColumnIndex = 1
-    this.#setColumnFocus(1)
+    this.#navigateToColumn(this.currentColumnIndex)
   }
 
   async connect() {
@@ -73,7 +75,6 @@ export default class extends Controller {
   }
 
   #collapseAllExcept(clickedColumn) {
-    console.log(clickedColumn)
     this.columnTargets.forEach(column => {
       if (column !== clickedColumn) {
         this.#collapse(column)
@@ -159,26 +160,32 @@ export default class extends Controller {
   #selectPrevious() {
     if (this.currentColumnIndex > 0) {
       this.currentColumnIndex -= 1
-      this.#setColumnFocus(this.currentColumnIndex)
+      this.#navigateToColumn(this.currentColumnIndex)
     }
   }
 
   #selectNext() {
     if (this.currentColumnIndex < this.allColumns.length - 1) {
       this.currentColumnIndex += 1
-      this.#setColumnFocus(this.currentColumnIndex)
+      this.#navigateToColumn(this.currentColumnIndex)
     }
   }
 
-  #setColumnFocus(index) {
+  #navigateToColumn(index) {
     const column = this.allColumns[index]
-    const focusElement = column.querySelector('[data-collapsible-columns-target="focusElement"]')
 
     if (this.#isCollapsed(column)) {
       this.#toggleColumn(column)
     }
 
+    this.#focusColumn(column)
+  }
+
+  #focusColumn(column) {
+    const focusElement = column.querySelector('[data-collapsible-columns-target="focusElement"]')
     focusElement.focus()
+
+    this.dispatch("focus", { detail: { column, index: this.currentColumnIndex } })
   }
 
   get allColumns() {
