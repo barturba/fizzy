@@ -1,4 +1,3 @@
-require_relative "metrics"
 require_relative "transaction_pinning"
 require_relative "signup"
 
@@ -57,6 +56,8 @@ module Fizzy
         Yabeda::ActionCable.configure do |config|
           config.channel_class_name = "ActionCable::Channel::Base"
         end
+
+        require_relative "metrics"
       end
 
       initializer "fizzy_saas.solid_queue" do
