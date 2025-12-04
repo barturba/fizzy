@@ -1,11 +1,11 @@
 module SubscriptionsHelper
   def subscription_period_end_action(subscription)
     if subscription.to_be_canceled?
-      "Ends"
+      "Your Fizzy subscription ends on"
     elsif subscription.canceled?
-      "Ended"
+      "Your Fizzy subscription ended on"
     else
-      "Renews"
+      "Your next payment of <b>$#{ subscription.plan.price }</b> will be billed on".html_safe
     end
   end
 end
