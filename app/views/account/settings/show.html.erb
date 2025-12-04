@@ -25,7 +25,7 @@
   <section class="billing panel panel--wide shadow center margin-block-double" style="background: linear-gradient(to bottom, var(--color-canvas), oklch(var(--lch-purple-lighter)))">
     <h2 class="divider txt-small txt-uppercase margin-none" style="color: var(--color-card-6); --divider-color: currentColor">Subscription</h2>
 
-    <% if !Current.account.plan.free? %>
+    <% if Current.account.plan.free? %>
       <h3 class="margin-block-start margin-block-end-half txt-x-large font-weight-black">You’ve used <span class="fill-highlighter"><%= Current.account.cards_count  %>/<%= Plan.free.card_limit %></span> free cards</h3>
       <p class="margin-none-block-start">If you’d like to keep using Fizzy past <%= Plan.free.card_limit %> cards, it’s only <strong>$<%= Plan.paid.price %>/month</strong> for <strong>unlimited cards</strong> + <strong>unlimited users</strong>. You’ll also get <strong><%= number_to_human_size(Plan.paid.formatted_storage_limit) %></strong> of storage. </p>
 
