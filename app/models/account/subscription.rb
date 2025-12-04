@@ -12,4 +12,8 @@ class Account::Subscription < ApplicationRecord
   def paid?
     !plan.free? && active?
   end
+
+  def canceled?
+    cancel_at.present?
+  end
 end

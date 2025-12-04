@@ -16,6 +16,9 @@
   <% if Current.account.plan.free? %>
     <%= button_to "Upgrade to Monthly", account_subscription_path(plan: :monthly_v1), class: "btn btn--primary", data: { turbo: false } %>
   <% else %>
+    <% if Current.account.subscription %>
+      <%= render "account/settings/subscription", subscription: Current.account.subscription %>
+    <% end %>
     <%= link_to "Manage Billing", account_billing_portal_path, class: "btn" %>
   <% end %>
 </section>

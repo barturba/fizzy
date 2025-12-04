@@ -48,10 +48,13 @@ class Stripe::WebhooksController < ApplicationController
     end
 
     def handle_subscription_updated(stripe_subscription)
-      subscription = find_subscription_by_customer(stripe_subscription.customer)
-      return unless subscription
-
-      subscription.update!(status: stripe_subscription.status, current_period_end: extract_current_period_end(stripe_subscription))
+      if subscription = find_subscription_by_customer(stripe_subscription.customer)
+        subscription.update!(
+          status: stripe_subscription.status,
+          current_period_end: extract_current_period_end(stripe_subscription),
+          cancel_at: stripe_subscription.cancel_at ? Time.at(stripe_subscription.cancel_at) : nil
+        )
+      end
     end
 
     def handle_subscription_deleted(stripe_subscription)
