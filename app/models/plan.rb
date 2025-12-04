@@ -1,6 +1,6 @@
 class Plan
   PLANS = {
-    free_v1: { name: "Free", price: 0, card_limit: 1000, storage_limit: 5.gigabytes },
+    free_v1: { name: "Free", price: 0, card_limit: 1000, storage_limit: 1.gigabytes },
     monthly_v1: { name: "Monthly", price: 20, card_limit: Float::INFINITY, storage_limit: 5.gigabytes, stripe_price_id: "price_1SaHykRwChFE4it8PePOdDpS" }
   }
 
@@ -42,5 +42,9 @@ class Plan
 
   def paid?
     !free?
+  end
+
+  def formatted_storage_limit
+    ActionController::Base.helpers.number_to_human_size(storage_limit).delete(" ")
   end
 end
