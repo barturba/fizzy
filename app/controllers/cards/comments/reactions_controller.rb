@@ -11,6 +11,11 @@ class Cards::Comments::ReactionsController < ApplicationController
 
   def create
     @reaction = @comment.reactions.create!(params.expect(reaction: :content))
+
+    respond_to do |format|
+      format.turbo_stream
+      format.json { head :created }
+    end
   end
 
   def destroy
@@ -20,6 +25,11 @@ class Cards::Comments::ReactionsController < ApplicationController
       head :forbidden
     else
       @reaction.destroy
+
+      respond_to do |format|
+        format.turbo_stream
+        format.json { head :no_content }
+      end
     end
   end
 
