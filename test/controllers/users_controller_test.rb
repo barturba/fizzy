@@ -64,4 +64,20 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     delete user_path(users(:david))
     assert_response :forbidden
   end
+
+  test "index as JSON" do
+    sign_in_as :kevin
+
+    get users_path, as: :json
+    assert_response :success
+    assert_equal users(:kevin).account.users.active.count, @response.parsed_body.count
+  end
+
+  test "show as JSON" do
+    sign_in_as :kevin
+
+    get user_path(users(:david)), as: :json
+    assert_response :success
+    assert_equal users(:david).name, @response.parsed_body["name"]
+  end
 end
