@@ -22,13 +22,16 @@ proxy:
 # Your application configuration (secrets come from .kamal/secrets).
 env:
   secret:
-    - SECRET_KEY_BASE
-    - VAPID_PUBLIC_KEY
-    - VAPID_PRIVATE_KEY
+    - RAILS_MASTER_KEY
+    - SMTP_HOST
+    - SMTP_PORT
     - SMTP_USERNAME
     - SMTP_PASSWORD
+    - APP_HOST
+    - REPLY_TO_EMAIL
+    - VAPID_PRIVATE_KEY
+    - VAPID_PUBLIC_KEY
   clear:
-    MAILER_FROM_ADDRESS: support@example.com # The email address that Fizzy sends email from
     SOLID_QUEUE_IN_PUMA: true # Run background jobs in the app container
 
 
