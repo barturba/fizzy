@@ -23,6 +23,7 @@ proxy:
 env:
   secret:
     - RAILS_MASTER_KEY
+    - SECRET_KEY_BASE
     - SMTP_HOST
     - SMTP_PORT
     - SMTP_USERNAME
