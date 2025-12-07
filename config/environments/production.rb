@@ -5,18 +5,18 @@ Rails.application.configure do
 
   # Email provider Settings
   #
-  # Configure these according to whichever email provider you use. An example setup
-  # using SMTP looks like the following:
-  #
-  # config.action_mailer.smtp_settings = {
-  #   address:              'smtp.example.com', # The address of your email provider's SMTP server
-  #   port:                 2525,
-  #   domain:               'example.com',      # Your domain, which Fizzy will send email from
-  #   user_name:            ENV["SMTP_USERNAME"],
-  #   password:             ENV["SMTP_PASSWORD"],
-  #   authentication:       :plain,
-  #   enable_starttls_auto: true
-  # }
+  # Configure SMTP for production email delivery
+  # Secrets (SMTP_HOST, SMTP_PORT, SMTP_USERNAME, SMTP_PASSWORD) come from .kamal/secrets
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: ENV['APP_HOST'] || 'fizzy.example.com', protocol: "https" }
+  config.action_mailer.smtp_settings = {
+    address: ENV["SMTP_HOST"],
+    port: ENV["SMTP_PORT"],
+    user_name: ENV["SMTP_USERNAME"],
+    password: ENV["SMTP_PASSWORD"],
+    authentication: :plain,
+    enable_starttls_auto: true  # Use STARTTLS for port 587
+  }
 
   # Code is not reloaded between requests.
   config.enable_reloading = false
