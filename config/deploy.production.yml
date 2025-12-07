@@ -1,0 +1,9 @@
+servers:
+  web:
+    - fizzy.bartasurba.com
+
+proxy:
+  host: fizzy.bartasurba.com
+
+ssh:
+  user: app
