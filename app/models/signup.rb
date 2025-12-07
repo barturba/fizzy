@@ -7,6 +7,7 @@ class Signup
   attr_reader :account, :user
 
   validates :email_address, format: { with: URI::MailTo::EMAIL_REGEXP }, on: :identity_creation
+  validate :email_address_whitelisted, on: :identity_creation
   validates :full_name, :identity, presence: true, on: :completion
 
   def initialize(...)
@@ -43,6 +44,17 @@ class Signup
   end
 
   private
+    def email_address_whitelisted
+      return if allowed_email_addresses.blank? # If no whitelist configured, allow all
+      return if allowed_email_addresses.include?(email_address&.downcase)
+
+      errors.add(:email_address, "is not authorized to create an account")
+    end
+
+    def allowed_email_addresses
+      @allowed_email_addresses ||= ENV["ALLOWED_EMAIL_ADDRESSES"]&.split(",")&.map(&:strip)&.map(&:downcase)
+    end
+
     # Override to customize the handling of external accounts associated to the account.
     def create_tenant
       nil

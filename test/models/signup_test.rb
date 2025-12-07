@@ -10,6 +10,40 @@ class SignupTest < ActiveSupport::TestCase
     assert signup.valid?(:identity_creation)
   end
 
+  test "validates email whitelist when ALLOWED_EMAIL_ADDRESSES is set" do
+    with_env("ALLOWED_EMAIL_ADDRESSES" => "allowed@example.com,another@example.com") do
+      allowed_signup = Signup.new(email_address: "allowed@example.com")
+      assert allowed_signup.valid?(:identity_creation)
+
+      # Case insensitive
+      allowed_signup_caps = Signup.new(email_address: "ALLOWED@EXAMPLE.COM")
+      assert allowed_signup_caps.valid?(:identity_creation)
+
+      blocked_signup = Signup.new(email_address: "notallowed@example.com")
+      assert_not blocked_signup.valid?(:identity_creation)
+      assert_includes blocked_signup.errors[:email_address], "is not authorized to create an account"
+    end
+  end
+
+  test "allows all emails when ALLOWED_EMAIL_ADDRESSES is not set" do
+    with_env("ALLOWED_EMAIL_ADDRESSES" => nil) do
+      signup = Signup.new(email_address: "anyone@example.com")
+      assert signup.valid?(:identity_creation)
+    end
+  end
+
+  private
+    def with_env(vars)
+      old_values = vars.transform_values { |_| nil }
+      vars.each do |key, value|
+        old_values[key] = ENV[key]
+        ENV[key] = value
+      end
+      yield
+    ensure
+      old_values.each { |key, value| ENV[key] = value }
+    end
+
   test "#create_identity" do
     signup = Signup.new(email_address: "brian@example.com")
 

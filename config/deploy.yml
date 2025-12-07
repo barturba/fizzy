@@ -32,6 +32,7 @@ env:
     - REPLY_TO_EMAIL
     - VAPID_PRIVATE_KEY
     - VAPID_PUBLIC_KEY
+    - ALLOWED_EMAIL_ADDRESSES
   clear:
     SOLID_QUEUE_IN_PUMA: true # Run background jobs in the app container
 
