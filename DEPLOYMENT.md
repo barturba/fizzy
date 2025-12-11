@@ -25,10 +25,11 @@ kamal deploy -d production
 Create these items in your 1Password AppSecrets vault:
 
 - **Fizzy Rails Master Key** with field `RAILS_MASTER_KEY`
-- **Fizzy ForwardEmail SMTP** with fields `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`
+- **Fizzy ForwardEmail SMTP** with fields `SMTP_ADDRESS`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`
 - **Fizzy APP_HOST** with field `username` (your domain)
 - **Fizzy SMTP Reply-To** with field `username` (reply-to email)
 - **Fizzy VAPID Keys** with fields `VAPID_PRIVATE_KEY`, `VAPID_PUBLIC_KEY`
+- **Fizzy Email Whitelist** with field `ALLOWED_EMAIL_ADDRESSES`
 
 Generate VAPID keys with: `bundle exec rails fizzy:vapid`
 
