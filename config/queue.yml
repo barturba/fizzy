@@ -6,7 +6,7 @@ default: &default
     - queues: [ "default", "solid_queue_recurring", "backend", "webhooks", "*" ]
       threads: 3
       processes: <%= Integer(ENV.fetch("JOB_CONCURRENCY") { Concurrent.physical_processor_count }) %>
-      polling_interval: 0.1
+      polling_interval: 2
 
 development: *default
 test: *default
