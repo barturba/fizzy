@@ -1,6 +1,7 @@
+# Deploy over Tailscale; fizzy.bartasurba.com resolves to Cloudflare's proxy, not the box.
 servers:
   web:
-    - fizzy.bartasurba.com
+    - 100.99.133.48
 
 proxy:
   host: fizzy.bartasurba.com
