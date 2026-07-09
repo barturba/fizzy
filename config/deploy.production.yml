@@ -11,3 +11,6 @@ ssh:
 # The shared Kamal registry container (port 5000) replaced the old localhost:5555 one.
 registry:
   server: kamal-docker-registry:5000
+  username: app
+  password:
+    - KAMAL_REGISTRY_PASSWORD
