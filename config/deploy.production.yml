@@ -14,3 +14,10 @@ registry:
   username: app
   password:
     - KAMAL_REGISTRY_PASSWORD
+
+# Reuse the host's buildkit builder that trusts the plain-HTTP shared registry.
+builder:
+  arch: amd64
+  remote: ssh://app@100.99.133.48
+  local: false
+  context: .
