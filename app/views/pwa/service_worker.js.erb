@@ -1,5 +1,8 @@
 importScripts("<%= javascript_url("turbo-offline-umd.min") %>")
 
+// Bump to force every client onto fresh caches (old ones are deleted on activate).
+const CACHE_VERSION = "v2"
+
 // Documents - top-level navigation requests only
 // We need `cache: "no-cache"` here to work around
 // an annoying Safari PWA bug that predates offline mode
@@ -7,7 +10,7 @@ TurboOffline.addRule({
   match: (request) => request.destination === "document",
   except: /\/(edit|pin|watch|new)$/,
   handler: TurboOffline.handlers.networkFirst({
-    cacheName: "main",
+    cacheName: `main-${CACHE_VERSION}`,
     maxAge: 60 * 60 * 24 * 3,
     networkTimeout: 3,
     fetchOptions: { cache: "no-cache" },
@@ -18,7 +21,7 @@ TurboOffline.addRule({
 TurboOffline.addRule({
   match: /\/assets\/.+[-\.][0-9a-f]+\.(js|css|svg|png|jpg|webp|woff2?|ico)$/,
   handler: TurboOffline.handlers.cacheFirst({
-    cacheName: "assets",
+    cacheName: `assets-${CACHE_VERSION}`,
     maxAge: 60 * 60 * 24 * 7,
     maxEntrySize: 1024 * 1024
   })
@@ -28,7 +31,7 @@ TurboOffline.addRule({
   match: /\/(boards|cards|users)\//,
   except: /\/(edit|pin|watch|new)$/,
   handler: TurboOffline.handlers.networkFirst({
-    cacheName: "main",
+    cacheName: `main-${CACHE_VERSION}`,
     maxAge: 60 * 60 * 24 * 3,
     networkTimeout: 2,
     maxEntrySize: 1024 * 1024
@@ -38,7 +41,7 @@ TurboOffline.addRule({
 TurboOffline.addRule({
   match: /\/rails\/active_storage\//,
   handler: TurboOffline.handlers.networkFirst({
-    cacheName: "storage",
+    cacheName: `storage-${CACHE_VERSION}`,
     maxAge: 60 * 60 * 24 * 7,
     networkTimeout: 2,
     maxEntrySize: 2 * 1024 * 1024, // 2MB covers about 95% of all Fizzy blobs
@@ -51,7 +54,7 @@ TurboOffline.addRule({
 TurboOffline.addRule({
   except: /\/(service-worker\.js|edit|pin|watch|new)$/,
   handler: TurboOffline.handlers.networkFirst({
-    cacheName: "main",
+    cacheName: `main-${CACHE_VERSION}`,
     maxAge: 60 * 60 * 24,
     networkTimeout: 3,
     maxEntrySize: 1024 * 1024
@@ -59,8 +62,14 @@ TurboOffline.addRule({
 })
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(self.clients.claim())
+  event.waitUntil(Promise.all([ self.clients.claim(), deleteStaleCaches() ]))
 })
+
+async function deleteStaleCaches() {
+  const current = [ `main-${CACHE_VERSION}`, `assets-${CACHE_VERSION}`, `storage-${CACHE_VERSION}` ]
+  const names = await caches.keys()
+  return Promise.all(names.filter((name) => !current.includes(name)).map((name) => caches.delete(name)))
+}
 
 TurboOffline.start()
 
